@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@clerk/clerk-react'
 import { useClerk } from '@clerk/clerk-react'
 
+const API = import.meta.env.VITE_API_URL
+
 export default function InstitutionDashboard() {
   const { getToken } = useAuth() 
   const { signOut } = useClerk()
+  
   const [stats, setStats] = useState({ total_batches: '...', total_trainers: '...', total_students: '...' })
   const [batches, setBatches] = useState([])
   const [batchSummaries, setBatchSummaries] = useState({})
@@ -19,8 +22,8 @@ export default function InstitutionDashboard() {
       const headers = { Authorization: `Bearer ${token}` }
 
       const [statsRes, batchRes] = await Promise.all([
-        fetch('http://localhost:3001/institution/stats', { headers }),
-        fetch('http://localhost:3001/batches', { headers })
+        fetch(`${API}/institution/stats`, { headers }),  // ✅ fixed
+        fetch(`${API}/batches`, { headers }) 
       ])
 
       const statsData = await statsRes.json()
@@ -30,7 +33,8 @@ export default function InstitutionDashboard() {
 
       const summaries = {}
       for (const batch of batchData) {
-        const res = await fetch(`http://localhost:3001/batches/${batch.id}/summary`, { headers })
+        // ✅ Change to:
+const res = await fetch(`${API}/batches/${batch.id}/summary`, { headers })
         const data = await res.json()
         summaries[batch.id] = data
       }
