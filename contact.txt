@@ -1,0 +1,7 @@
+Name: Shaik Moheeja
+Email: shaikmoheeja057@gmail.com
+Phone: 7993607556
+GitHub: https://github.com/moheeja
+
+Most challenging part:
+Implementing role-based authentication and connecting frontend with backend APIs.
